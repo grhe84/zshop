@@ -18,6 +18,17 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:com/itany/zshop/mapper/*.xml"/>
         <property name="typeAliasesPackage" value="com.itany.zshop.pojo"/>
+        <property name="plugins">
+            <list>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <prop key="helperDialect">mysql</prop>
+                        </props>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

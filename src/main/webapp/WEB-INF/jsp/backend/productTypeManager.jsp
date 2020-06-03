@@ -11,6 +11,7 @@
   <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
   <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
+  <script src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
 </head>
 <body>
 <div class="panel panel-default" id="userSet">
@@ -21,7 +22,7 @@
     <input type="button" value="添加商品类型" class="btn btn-primary" id="doAddProTpye">
     <br>
     <br>
-    <div class="show-list">
+    <div class="show-list text-center">
       <table class="table table-bordered table-hover" style='text-align: center;'>
         <thead>
           <tr class="text-danger">
@@ -32,7 +33,7 @@
           </tr>
         </thead>
         <tbody id="tb">
-          <c:forEach items="${productTypes}" var="productType">
+          <c:forEach items="${pageInfo.list}" var="productType">
             <tr>
               <td>${productType.id}</td>
               <td>${productType.name}</td>
@@ -49,6 +50,7 @@
           </c:forEach>
         </tbody>
       </table>
+      <ul class="pagination"></ul>
     </div>
   </div>
 </div>
@@ -118,3 +120,13 @@
 <!-- 修改商品类型 end -->
 </body>
 </html>
+<script type="text/javascript">
+  $('.pagination').bootstrapPaginator({
+    bootstrapMajorVersion: 3,
+    currentPage: ${pageInfo.pageNum},
+    totalPages: ${pageInfo.pages},
+    pageUrl: function (type, page, current) {
+      return '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' + page;
+    }
+  });
+</script>
