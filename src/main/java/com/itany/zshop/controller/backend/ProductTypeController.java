@@ -2,12 +2,15 @@ package com.itany.zshop.controller.backend;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.itany.zshop.common.exception.ProductTypeExistException;
+import com.itany.zshop.common.util.ResponseResult;
 import com.itany.zshop.pojo.ProductTypePO;
 import com.itany.zshop.service.ProductTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -29,6 +32,21 @@ public class ProductTypeController {
         PageInfo<ProductTypePO> pageInfo = new PageInfo<>(productTypes);
         model.addAttribute("pageInfo", pageInfo);
         return "backend/productTypeManager";
+    }
+
+    @RequestMapping("/add")
+    @ResponseBody
+    public ResponseResult add(String name) {
+        ResponseResult result = new ResponseResult();
+        try {
+            productTypeService.add(name);
+            result.setStatus(1);
+            result.setMessage("添加成功");
+        } catch (ProductTypeExistException e) {
+            result.setStatus(0);
+            result.setMessage(e.getMessage());
+        }
+        return result;
     }
 
 }

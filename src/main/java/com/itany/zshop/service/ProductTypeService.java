@@ -1,5 +1,6 @@
 package com.itany.zshop.service;
 
+import com.itany.zshop.common.exception.ProductTypeExistException;
 import com.itany.zshop.pojo.ProductTypePO;
 
 import java.util.List;
@@ -7,5 +8,7 @@ import java.util.List;
 public interface ProductTypeService {
 
     List<ProductTypePO> findAll();
+
+    void add(String name) throws ProductTypeExistException;
 
 }

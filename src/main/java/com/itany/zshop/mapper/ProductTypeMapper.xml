@@ -8,4 +8,15 @@
         select * from t_product_type
     </select>
 
+    <select id="selectByName" resultType="com.itany.zshop.pojo.ProductTypePO">
+        select * from t_product_type
+        where name = #{name}
+    </select>
+
+    <insert id="insert">
+        insert into t_product_type
+        (name, status)
+        values (#{name}, #{status})
+    </insert>
+
 </mapper>

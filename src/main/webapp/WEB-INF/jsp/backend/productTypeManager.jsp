@@ -12,6 +12,7 @@
   <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
   <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
+  <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
 </head>
 <body>
 <div class="panel panel-default" id="userSet">
@@ -44,7 +45,12 @@
               <td class="text-center">
                 <input type="button" class="btn btn-primary btn-sm doProTypeModify" value="修改">
                 <input type="button" class="btn btn-warning btn-sm doProTypeDelete" value="删除">
-                <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
+                <c:if test="${productType.status == 1}">
+                  <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
+                </c:if>
+                <c:if test="${productType.status == 0}">
+                  <input type="button" class="btn btn-success btn-sm doProTypeDisable" value="启用">
+                </c:if>
               </td>
             </tr>
           </c:forEach>
@@ -76,8 +82,8 @@
         <br>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary addProductType">添加</button>
-        <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
+        <button class="btn btn-primary addProductType" onclick="addProductType()">添加</button>
+        <button class="btn btn-default cancel" data-dismiss="modal">取消</button>
       </div>
     </div>
   </div>
@@ -129,4 +135,25 @@
       return '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' + page;
     }
   });
+  
+  // 添加商品类型
+  function addProductType() {
+    $.post(
+      '${pageContext.request.contextPath}/backend/productType/add',
+      {'name': $('#productTypeName').val().trim()},
+      function (result) {
+        if (result.status == 1) {
+          layer.alert(result.message, {
+            icon: 1
+          }, function () {
+            location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' + ${pageInfo.pageNum};
+          });
+        } else {
+          layer.alert(result.message, {
+            icon: 2
+          })
+        }
+      }
+    );
+  }
 </script>

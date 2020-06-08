@@ -1,5 +1,6 @@
 package com.itany.zshop.service.impl;
 
+import com.itany.zshop.common.exception.ProductTypeExistException;
 import com.itany.zshop.dao.ProductTypeDao;
 import com.itany.zshop.pojo.ProductTypePO;
 import com.itany.zshop.service.ProductTypeService;
@@ -21,6 +22,14 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<ProductTypePO> findAll() {
         return productTypeDao.selectAll();
+    }
+
+    @Override
+    public void add(String name) throws ProductTypeExistException {
+        if (productTypeDao.selectByName(name) != null) {
+            throw new ProductTypeExistException("商品类型已存在");
+        }
+        productTypeDao.insert(name, 1);
     }
 
 }
