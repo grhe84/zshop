@@ -27,7 +27,7 @@ public class ProductTypeController {
         if (ObjectUtils.isEmpty(pageNum)) {
             pageNum = 1;
         }
-        PageHelper.startPage(pageNum, 10);
+        PageHelper.startPage(pageNum, 5);
         List<ProductTypePO> productTypes = productTypeService.findAll();
         PageInfo<ProductTypePO> pageInfo = new PageInfo<>(productTypes);
         model.addAttribute("pageInfo", pageInfo);
@@ -42,6 +42,31 @@ public class ProductTypeController {
             productTypeService.add(name);
             result.setStatus(1);
             result.setMessage("添加成功");
+        } catch (ProductTypeExistException e) {
+            result.setStatus(0);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+    @RequestMapping("/findById")
+    @ResponseBody
+    public ResponseResult findById(Integer id) {
+        ResponseResult result = new ResponseResult();
+        ProductTypePO productType = productTypeService.findById(id);
+        result.setStatus(1);
+        result.setData(productType);
+        return result;
+    }
+
+    @RequestMapping("/modifyName")
+    @ResponseBody
+    public ResponseResult modifyName(Integer id, String name) {
+        ResponseResult result = new ResponseResult();
+        try {
+            productTypeService.modifyName(id, name);
+            result.setStatus(1);
+            result.setMessage("修改成功");
         } catch (ProductTypeExistException e) {
             result.setStatus(0);
             result.setMessage(e.getMessage());

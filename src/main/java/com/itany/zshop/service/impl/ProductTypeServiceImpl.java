@@ -32,4 +32,18 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         productTypeDao.insert(name, 1);
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public ProductTypePO findById(Integer id) {
+        return productTypeDao.selectById(id);
+    }
+
+    @Override
+    public void modifyName(Integer id, String name) throws ProductTypeExistException {
+        if (productTypeDao.selectByName(name) != null) {
+            throw new ProductTypeExistException("商品类型已存在");
+        }
+        productTypeDao.updateName(id, name);
+    }
+
 }

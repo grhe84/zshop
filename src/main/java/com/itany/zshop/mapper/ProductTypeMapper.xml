@@ -13,10 +13,21 @@
         where name = #{name}
     </select>
 
+    <select id="selectById" resultType="com.itany.zshop.pojo.ProductTypePO">
+        select * from t_product_type
+        where id = #{id}
+    </select>
+
     <insert id="insert">
         insert into t_product_type
         (name, status)
         values (#{name}, #{status})
     </insert>
+
+    <update id="updateName">
+        update t_product_type
+        set name = #{name}
+        where id = #{id}
+    </update>
 
 </mapper>

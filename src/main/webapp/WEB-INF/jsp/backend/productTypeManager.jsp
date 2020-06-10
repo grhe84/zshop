@@ -43,7 +43,7 @@
                 <c:if test="${productType.status == 0}">禁用</c:if>
               </td>
               <td class="text-center">
-                <input type="button" class="btn btn-primary btn-sm doProTypeModify" value="修改">
+                <input type="button" class="btn btn-primary btn-sm doProTypeModify" onclick="showProductType(${productType.id})" value="修改">
                 <input type="button" class="btn btn-warning btn-sm doProTypeDelete" value="删除">
                 <c:if test="${productType.status == 1}">
                   <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
@@ -117,8 +117,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-warning updateProType">修改</button>
-        <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
+        <button class="btn btn-primary updateProType" onclick="modifyProTypeName()">修改</button>
+        <button class="btn btn-default cancel" data-dismiss="modal">取消</button>
       </div>
     </div>
   </div>
@@ -138,22 +138,69 @@
   
   // 添加商品类型
   function addProductType() {
+    if ($('#productTypeName').val().trim() == '') {
+      layer.alert('商品类型不能为空', {
+        icon: 2
+      });
+    } else {
+      $.post(
+        '${pageContext.request.contextPath}/backend/productType/add',
+        {'name': $('#productTypeName').val().trim()},
+        function (result) {
+          if (result.status == 1) {
+            layer.alert(result.message, {
+              icon: 1
+            }, function () {
+              location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' + ${pageInfo.pageNum};
+            });
+          } else {
+            layer.alert(result.message, {
+              icon: 2
+            })
+          }
+        }
+      );
+    }
+  }
+
+  // 显示商品类型
+  function showProductType(id) {
     $.post(
-      '${pageContext.request.contextPath}/backend/productType/add',
-      {'name': $('#productTypeName').val().trim()},
+      '${pageContext.request.contextPath}/backend/productType/findById',
+      {'id': id},
       function (result) {
         if (result.status == 1) {
-          layer.alert(result.message, {
-            icon: 1
-          }, function () {
-            location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' + ${pageInfo.pageNum};
-          });
-        } else {
-          layer.alert(result.message, {
-            icon: 2
-          })
+          $('#proTypeNum').val(result.data.id);
+          $('#proTypeName').val(result.data.name);
         }
       }
     );
+  }
+  
+  // 修改商品类型名称
+  function modifyProTypeName() {
+    if ($('#proTypeName').val().trim() == '') {
+      layer.alert('商品类型名称不能为空', {
+        icon: 2
+      });
+    } else {
+      $.post(
+        '${pageContext.request.contextPath}/backend/productType/modifyName',
+        {'id': $('#proTypeNum').val().trim(),'name': $('#proTypeName').val().trim()},
+        function (result) {
+          if (result.status == 1) {
+            layer.alert(result.message, {
+              icon: 1
+            }, function () {
+              location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' + ${pageInfo.pageNum};
+            })
+          } else {
+            layer.alert(result.message, {
+              icon: 2
+            })
+          }
+        }
+      );
+    }
   }
 </script>

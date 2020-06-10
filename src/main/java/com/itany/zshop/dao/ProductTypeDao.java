@@ -13,4 +13,7 @@ public interface ProductTypeDao {
 
     void insert(@Param("name") String name, @Param("status") Integer status);
 
+    ProductTypePO selectById(Integer id);
+
+    void updateName(@Param("id") Integer id, @Param("name") String name);
 }
