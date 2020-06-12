@@ -44,7 +44,7 @@
               </td>
               <td class="text-center">
                 <input type="button" class="btn btn-primary btn-sm doProTypeModify" onclick="showProductType(${productType.id})" value="修改">
-                <input type="button" class="btn btn-warning btn-sm doProTypeDelete" value="删除">
+                <input type="button" class="btn btn-warning btn-sm doProTypeDelete" onclick="removeProductType(${productType.id})" value="删除">
                 <c:if test="${productType.status == 1}">
                   <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
                 </c:if>
@@ -202,5 +202,31 @@
         }
       );
     }
+  }
+
+  // 删除商品类型
+  function removeProductType(id) {
+    layer.confirm('是否删除该商品类型', {
+      icon: 3,
+      btn: ['确定', '取消']
+    }, function () {
+      $.post(
+        '${pageContext.request.contextPath}/backend/productType/removeById',
+        {'id': id},
+        function (result) {
+          if (result.status == 1) {
+            layer.alert(result.message, {
+              icon: 1
+            }, function () {
+              location.href = '${pageContext.request.contextPath}/backend/productType/findAll?pageNum=' + ${pageInfo.pageNum}
+            });
+          } else {
+            layer.alert('删除失败', {
+              icon: 2
+            });
+          }
+        }
+      );
+    });
   }
 </script>

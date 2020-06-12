@@ -46,4 +46,9 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         productTypeDao.updateName(id, name);
     }
 
+    @Override
+    public void removeById(Integer id) {
+        productTypeDao.deleteById(id);
+    }
+
 }

@@ -14,4 +14,6 @@ public interface ProductTypeService {
     ProductTypePO findById(Integer id);
 
     void modifyName(Integer id, String name) throws ProductTypeExistException;
+
+    void removeById(Integer id);
 }

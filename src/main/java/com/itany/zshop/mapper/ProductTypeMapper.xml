@@ -30,4 +30,9 @@
         where id = #{id}
     </update>
 
+    <delete id="deleteById">
+        delete from t_product_type
+        where id = #{id}
+    </delete>
+
 </mapper>

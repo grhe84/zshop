@@ -74,4 +74,14 @@ public class ProductTypeController {
         return result;
     }
 
+    @RequestMapping("/removeById")
+    @ResponseBody
+    public ResponseResult removeById(Integer id) {
+        ResponseResult result = new ResponseResult();
+        productTypeService.removeById(id);
+        result.setStatus(1);
+        result.setMessage("删除成功");
+        return result;
+    }
+
 }
