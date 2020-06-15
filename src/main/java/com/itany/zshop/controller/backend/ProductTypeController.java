@@ -74,6 +74,15 @@ public class ProductTypeController {
         return result;
     }
 
+    @RequestMapping("/modifyStatus")
+    @ResponseBody
+    public ResponseResult modifyStatus(Integer id) {
+        ResponseResult result = new ResponseResult();
+        productTypeService.modifyStatus(id);
+        result.setStatus(1);
+        return result;
+    }
+
     @RequestMapping("/removeById")
     @ResponseBody
     public ResponseResult removeById(Integer id) {

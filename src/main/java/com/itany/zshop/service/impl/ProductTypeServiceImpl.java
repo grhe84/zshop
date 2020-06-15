@@ -51,4 +51,11 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         productTypeDao.deleteById(id);
     }
 
+    @Override
+    public void modifyStatus(Integer id) {
+        ProductTypePO productType = productTypeDao.selectById(id);
+        Integer status = (productType.getStatus() == 1) ? 0 : 1;
+        productTypeDao.updateStatus(id, status);
+    }
+
 }

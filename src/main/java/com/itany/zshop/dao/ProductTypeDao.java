@@ -18,4 +18,6 @@ public interface ProductTypeDao {
     void updateName(@Param("id") Integer id, @Param("name") String name);
 
     void deleteById(Integer id);
+
+    void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
 }

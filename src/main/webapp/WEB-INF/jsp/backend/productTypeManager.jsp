@@ -46,10 +46,10 @@
                 <input type="button" class="btn btn-primary btn-sm doProTypeModify" onclick="showProductType(${productType.id})" value="修改">
                 <input type="button" class="btn btn-warning btn-sm doProTypeDelete" onclick="removeProductType(${productType.id})" value="删除">
                 <c:if test="${productType.status == 1}">
-                  <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用">
+                  <input type="button" class="btn btn-danger btn-sm doProTypeDisable" value="禁用" onclick="modifyProductTypeStatus(${productType.id}, this)">
                 </c:if>
                 <c:if test="${productType.status == 0}">
-                  <input type="button" class="btn btn-success btn-sm doProTypeDisable" value="启用">
+                  <input type="button" class="btn btn-success btn-sm doProTypeDisable" value="启用" onclick="modifyProductTypeStatus(${productType.id}, this)">
                 </c:if>
               </td>
             </tr>
@@ -228,5 +228,25 @@
         }
       );
     });
+  }
+
+  // 修改商品类型的状态
+  function modifyProductTypeStatus(id, btn) {
+    $.post(
+      '${pageContext.request.contextPath}/backend/productType/modifyStatus',
+      {'id': id},
+      function (result) {
+        if (result.status == 1) {
+          let $status = $(btn).parent().prev();
+          if ($status.text().trim() == '禁用') {
+            $status.text('启用');
+            $(btn).val('禁用').removeClass('btn-success').addClass('btn-danger');
+          } else if ($status.text().trim() == '启用') {
+            $status.text('禁用');
+            $(btn).val('启用').removeClass('btn-danger').addClass('btn-success');
+          }
+        }
+      }
+    );
   }
 </script>
