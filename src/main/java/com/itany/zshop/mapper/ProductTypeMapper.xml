@@ -18,6 +18,11 @@
         where id = #{id}
     </select>
 
+    <select id="selectByStatus" resultType="com.itany.zshop.pojo.ProductTypePO">
+        select * from t_product_type
+        where status = #{status}
+    </select>
+
     <insert id="insert">
         insert into t_product_type
         (name, status)

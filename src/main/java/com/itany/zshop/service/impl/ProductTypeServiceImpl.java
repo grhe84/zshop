@@ -58,4 +58,10 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         productTypeDao.updateStatus(id, status);
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<ProductTypePO> findEnable() {
+        return productTypeDao.selectByStatus(1);
+    }
+
 }

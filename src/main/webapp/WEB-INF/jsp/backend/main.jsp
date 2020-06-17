@@ -17,7 +17,7 @@
         $("#frame-id").attr("src", "${pageContext.request.contextPath}/backend/productType/findAll");
       });
       $("#product-set").click(function() {
-        $("#frame-id").attr("src", "productManager.html");
+        $("#frame-id").attr("src", "${pageContext.request.contextPath}/backend/product/findAll");
       });
       $("#user-set").click(function() {
         $("#frame-id").attr("src", "customerManager.html");

@@ -18,4 +18,6 @@ public interface ProductTypeService {
     void removeById(Integer id);
 
     void modifyStatus(Integer id);
+
+    List<ProductTypePO> findEnable();
 }

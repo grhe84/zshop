@@ -20,4 +20,6 @@ public interface ProductTypeDao {
     void deleteById(Integer id);
 
     void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
+
+    List<ProductTypePO> selectByStatus(Integer status);
 }
