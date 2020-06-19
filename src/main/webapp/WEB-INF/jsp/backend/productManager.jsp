@@ -68,7 +68,12 @@
   <!-- 窗口声明 -->
   <div class="modal-dialog modal-lg">
     <!-- 内容声明 -->
-    <form action="" class="form-horizontal">
+    <form
+      action="${pageContext.request.contextPath}/backend/product/add"
+      class="form-horizontal"
+      method="post"
+      enctype="multipart/form-data"
+    >
       <div class="modal-content">
         <!-- 头部、主体、脚注 -->
         <div class="modal-header">
@@ -80,27 +85,27 @@
             <div class="form-group">
               <label for="product-name" class="col-sm-4 control-label">商品名称：</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="product-name">
+                <input type="text" class="form-control" id="product-name" name="name">
               </div>
             </div>
             <div class="form-group">
               <label for="product-price" class="col-sm-4 control-label">商品价格：</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="product-price">
+                <input type="text" class="form-control" id="product-price" name="price">
               </div>
             </div>
             <div class="form-group">
               <label for="product-image" class="col-sm-4 control-label">商品图片：</label>
               <div class="col-sm-8">
                 <a href="javascript:;" class="file">选择文件
-                  <input type="file" name="" id="product-image">
+                  <input type="file" name="file" id="product-image">
                 </a>
               </div>
             </div>
             <div class="form-group">
               <label for="product-type" class="col-sm-4 control-label">商品类型：</label>
               <div class="col-sm-8">
-                <select class="form-control">
+                <select class="form-control" name="productTypeId">
                   <option>--请选择--</option>
                   <c:forEach items="${productTypes}" var="productType">
                       <option value="${productType.id}">${productType.name}</option>
@@ -115,7 +120,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary">添加</button>
+          <button class="btn btn-primary" type="submit">添加</button>
           <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
         </div>
       </div>
