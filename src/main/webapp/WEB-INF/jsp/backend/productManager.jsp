@@ -12,6 +12,7 @@
   <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
   <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
+  <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
   <script>
     $(function(){
       //上传图像预览
@@ -197,3 +198,16 @@
 </div>
 </body>
 </html>
+<script type="text/javascript">
+  if ('${addMsg}' == '添加成功') {
+    layer.alert('${addMsg}', {
+      icon: 1
+    }, function () {
+      location.href = '${pageContext.request.contextPath}/backend/product/findAll';
+    });
+  } else if ('${addMsg}' == '添加失败') {
+    layer.alert('${addMsg}', {
+      icon: 2
+    });
+  }
+</script>
