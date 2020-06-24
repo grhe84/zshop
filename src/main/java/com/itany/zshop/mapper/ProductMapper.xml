@@ -4,6 +4,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itany.zshop.dao.ProductDao">
 
+    <resultMap id="productMap" type="com.itany.zshop.pojo.ProductPO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+        <result property="info" column="info"/>
+        <result property="image" column="image"/>
+        <association property="productTypePO" javaType="com.itany.zshop.pojo.ProductTypePO" column="product_type_id">
+            <id property="id" column="id"/>
+        </association>
+    </resultMap>
+
+    <select id="selectByName" resultMap="productMap">
+        select * from t_product
+        where name = #{name}
+    </select>
+
     <insert id="insert" parameterType="com.itany.zshop.pojo.ProductPO">
         insert into t_product
         (name, price, image, product_type_id)

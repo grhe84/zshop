@@ -10,10 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/backend/product")
@@ -51,6 +54,14 @@ public class ProductController {
             model.addAttribute("addMsg", "添加失败");
         }
         return "backend/productManager";
+    }
+
+    @RequestMapping("/checkName")
+    @ResponseBody
+    public Map<String, Object> checkName(String name) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("valid", productService.checkName(name));
+        return map;
     }
 
 }

@@ -6,13 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>backend</title>
-  <link rel="stylesheet"  href="${pageContext.request.contextPath}/css/bootstrap.css" />
-  <link rel="stylesheet"  href="${pageContext.request.contextPath}/css/index.css" />
-  <link rel="stylesheet"  href="${pageContext.request.contextPath}/css/file.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/file.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrapvalidator.min.css /">
   <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
   <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
   <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
+  <script src="${pageContext.request.contextPath}/js/bootstrapvalidator.min.js"></script>
   <script>
     $(function(){
       //上传图像预览
@@ -74,6 +76,7 @@
       class="form-horizontal"
       method="post"
       enctype="multipart/form-data"
+      id="frmAddProduct"
     >
       <div class="modal-content">
         <!-- 头部、主体、脚注 -->
@@ -210,4 +213,26 @@
       icon: 2
     });
   }
+
+  // 添加商品表单校验
+  $('#frmAddProduct').bootstrapValidator({
+    feedbackIcons: {
+      valid: 'glyphicon glyphicon-ok',
+      invalid: 'glyphicon glyphicon-remove',
+      validating: 'glyphicon glyphicon-refresh'
+    },
+    fields: {
+      name: {
+        validators: {
+          notEmpty: {
+            message: '商品名称不能为空'
+          },
+          remote: {
+            url: '${pageContext.request.contextPath}/backend/product/checkName',
+            message: '该商品名称已存在'
+          }
+        }
+      }
+    }
+  });
 </script>

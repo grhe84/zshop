@@ -38,4 +38,10 @@ public class ProductServiceImpl implements ProductService {
 
         productDao.insert(productPO);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Boolean checkName(String name) {
+        return productDao.selectByName(name) == null;
+    }
 }
