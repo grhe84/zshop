@@ -110,7 +110,7 @@
               <label for="product-type" class="col-sm-4 control-label">商品类型：</label>
               <div class="col-sm-8">
                 <select class="form-control" name="productTypeId">
-                  <option>--请选择--</option>
+                  <option value="">--请选择--</option>
                   <c:forEach items="${productTypes}" var="productType">
                       <option value="${productType.id}">${productType.name}</option>
                   </c:forEach>
@@ -230,6 +230,31 @@
           remote: {
             url: '${pageContext.request.contextPath}/backend/product/checkName',
             message: '该商品名称已存在'
+          }
+        }
+      },
+      price: {
+        validators: {
+          notEmpty: {
+            message: '商品价格不能为空'
+          },
+          regexp: {
+            regexp: /^\d+(\.\d+)?$/,
+            message: '商品价格格式不正确'
+          }
+        }
+      },
+      file: {
+        validators: {
+          notEmpty: {
+            message: '情选择商品图片'
+          }
+        }
+      },
+      productTypeId: {
+        validators: {
+          notEmpty: {
+            message: '请选择商品类型'
           }
         }
       }
