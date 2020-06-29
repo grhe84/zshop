@@ -14,6 +14,7 @@ import org.springframework.util.StreamUtils;
 
 import javax.annotation.Resource;
 import java.io.FileOutputStream;
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -43,5 +44,11 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Boolean checkName(String name) {
         return productDao.selectByName(name) == null;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<ProductPO> findAll() {
+        return productDao.selectAll();
     }
 }

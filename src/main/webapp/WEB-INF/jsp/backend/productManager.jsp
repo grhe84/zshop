@@ -15,6 +15,7 @@
   <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
   <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrapvalidator.min.js"></script>
+  <script src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
   <script>
     $(function(){
       //上传图像预览
@@ -36,7 +37,7 @@
     <input type="button" value="添加商品" class="btn btn-primary" id="doAddPro">
     <br>
     <br>
-    <div class="show-list">
+    <div class="show-list text-center">
       <table class="table table-bordered table-hover" style='text-align: center;'>
         <thead>
           <tr class="text-danger">
@@ -49,19 +50,25 @@
           </tr>
         </thead>
         <tbody id="tb">
-          <tr>
-            <td>1</td>
-            <td>手机</td>
-            <td>1999</td>
-            <td>电子产品</td>
-            <td>有效商品</td>
-            <td class="text-center">
-              <input type="button" class="btn btn-warning btn-sm doProModify" value="修改">
-              <input type="button" class="btn btn-danger btn-sm doProDelete" value="删除">
-            </td>
-          </tr>
+          <c:forEach items="${pageInfo.list}" var="product">
+            <tr>
+              <td>${product.id}</td>
+              <td>${product.name}</td>
+              <td>${product.price}</td>
+              <td>${product.productTypePO.name}</td>
+              <td>
+                <c:if test="${product.productTypePO.status == 1}">有效商品</c:if>
+                <c:if test="${product.productTypePO.status == 0}">无效商品</c:if>
+              </td>
+              <td class="text-center">
+                <input type="button" class="btn btn-warning btn-sm doProModify" value="修改">
+                <input type="button" class="btn btn-danger btn-sm doProDelete" value="删除">
+              </td>
+            </tr>
+          </c:forEach>
         </tbody>
       </table>
+      <ul class="pagination"></ul>
     </div>
   </div>
 </div>
@@ -213,6 +220,16 @@
       icon: 2
     });
   }
+
+  // 分页插件
+  $('.pagination').bootstrapPaginator({
+    bootstrapMajorVersion: 3,
+    currentPage: ${pageInfo.pageNum},
+    totalPages: ${pageInfo.pages},
+    pageUrl: function (type, page, current) {
+      return '${pageContext.request.contextPath}/backend/product/findAll?pageNum=' + page;
+    }
+  });
 
   // 添加商品表单校验
   $('#frmAddProduct').bootstrapValidator({

@@ -1,6 +1,9 @@
 package com.itany.zshop.controller.backend;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.itany.zshop.dto.ProductDto;
+import com.itany.zshop.pojo.ProductPO;
 import com.itany.zshop.pojo.ProductTypePO;
 import com.itany.zshop.service.ProductService;
 import com.itany.zshop.service.ProductTypeService;
@@ -8,6 +11,7 @@ import com.itany.zshop.vo.ProductVO;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +38,14 @@ public class ProductController {
     }
 
     @RequestMapping("/findAll")
-    public String findAll() {
+    public String findAll(Integer pageNum, Model model) {
+        if (ObjectUtils.isEmpty(pageNum)) {
+            pageNum = 1;
+        }
+        PageHelper.startPage(pageNum, 5);
+        List<ProductPO> products = productService.findAll();
+        PageInfo<ProductPO> pageInfo = new PageInfo<>(products);
+        model.addAttribute("pageInfo", pageInfo);
         return "backend/productManager";
     }
 

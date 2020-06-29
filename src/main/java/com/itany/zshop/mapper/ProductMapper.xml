@@ -15,6 +15,26 @@
         </association>
     </resultMap>
 
+    <resultMap id="productMap2" type="com.itany.zshop.pojo.ProductPO">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+        <result property="info" column="info"/>
+        <result property="image" column="image"/>
+        <association property="productTypePO" javaType="com.itany.zshop.pojo.ProductTypePO" column="pt.id">
+            <id property="id" column="pt.id"/>
+            <result property="name" column="pt.name"/>
+            <result property="status" column="status"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAll" resultMap="productMap2">
+        select p.id,p.name,p.price,p.info,p.image,p.product_type_id,pt.id 'pt.id',pt.name 'pt.name',pt.status
+        from t_product p
+        left join t_product_type pt
+        on p.product_type_id = pt.id
+    </select>
+
     <select id="selectByName" resultMap="productMap">
         select * from t_product
         where name = #{name}
