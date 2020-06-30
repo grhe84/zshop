@@ -13,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StreamUtils;
 
 import javax.annotation.Resource;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -50,5 +53,16 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<ProductPO> findAll() {
         return productDao.selectAll();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public ProductPO findById(Integer id) {
+        return productDao.selectById(id);
+    }
+
+    @Override
+    public void findImage(String path, OutputStream outputStream) throws IOException {
+        StreamUtils.copy(new FileInputStream(path), outputStream);
     }
 }

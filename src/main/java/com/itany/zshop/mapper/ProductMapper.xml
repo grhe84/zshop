@@ -11,7 +11,7 @@
         <result property="info" column="info"/>
         <result property="image" column="image"/>
         <association property="productTypePO" javaType="com.itany.zshop.pojo.ProductTypePO" column="product_type_id">
-            <id property="id" column="id"/>
+            <id property="id" column="product_type_id"/>
         </association>
     </resultMap>
 
@@ -38,6 +38,11 @@
     <select id="selectByName" resultMap="productMap">
         select * from t_product
         where name = #{name}
+    </select>
+    
+    <select id="selectById" resultMap="productMap">
+        select * from t_product
+        where id = #{id}
     </select>
 
     <insert id="insert" parameterType="com.itany.zshop.pojo.ProductPO">

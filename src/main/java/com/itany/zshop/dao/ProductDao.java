@@ -10,4 +10,6 @@ public interface ProductDao {
     ProductPO selectByName(String name);
 
     List<ProductPO> selectAll();
+
+    ProductPO selectById(Integer id);
 }

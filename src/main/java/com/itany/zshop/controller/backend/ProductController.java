@@ -2,6 +2,7 @@ package com.itany.zshop.controller.backend;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.itany.zshop.common.util.ResponseResult;
 import com.itany.zshop.dto.ProductDto;
 import com.itany.zshop.pojo.ProductPO;
 import com.itany.zshop.pojo.ProductTypePO;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +50,24 @@ public class ProductController {
         PageInfo<ProductPO> pageInfo = new PageInfo<>(products);
         model.addAttribute("pageInfo", pageInfo);
         return "backend/productManager";
+    }
+
+    @RequestMapping("/findById")
+    @ResponseBody
+    public ResponseResult findById(Integer id) {
+        ResponseResult result = new ResponseResult();
+        result.setStatus(1);
+        result.setData(productService.findById(id));
+        return result;
+    }
+
+    @RequestMapping("/findImage")
+    public void findImage(String path, OutputStream outputStream) {
+        try {
+            productService.findImage(path, outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping("/add")

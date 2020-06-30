@@ -61,7 +61,12 @@
                 <c:if test="${product.productTypePO.status == 0}">无效商品</c:if>
               </td>
               <td class="text-center">
-                <input type="button" class="btn btn-warning btn-sm doProModify" value="修改">
+                <input
+                  type="button"
+                  class="btn btn-warning btn-sm doProModify"
+                  onclick="showProduct(${product.id})"
+                  value="修改"
+                >
                 <input type="button" class="btn btn-danger btn-sm doProDelete" value="删除">
               </td>
             </tr>
@@ -183,8 +188,8 @@
             <div class="form-group">
               <label for="product-type" class="col-sm-4 control-label">商品类型：</label>
               <div class="col-sm-8">
-                <select class="form-control">
-                  <option>--请选择--</option>
+                <select class="form-control" id="pro-typeId">
+                  <option value="">--请选择--</option>
                   <c:forEach items="${productTypes}" var="productType">
                       <option value="${productType.id}">${productType.name}</option>
                   </c:forEach>
@@ -194,12 +199,12 @@
           </div>
           <div class="col-sm-4">
             <!-- 显示图像预览 -->
-            <img style="width: 160px;height: 180px;" id="img2">
+            <img style="width: 160px;height: 180px;" id="img2" src="" alt="无法显示图片">
           </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary updatePro">修改</button>
-            <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
+            <button class="btn btn-default cancel" data-dismiss="modal">取消</button>
         </div>
       </div>
     </form>
@@ -277,4 +282,22 @@
       }
     }
   });
+
+  // 显示商品信息
+  function showProduct(id) {
+    $.post(
+      '${pageContext.request.contextPath}/backend/product/findById',
+      {'id': id},
+      function (result) {
+        if (result.status == 1) {
+          $('#pro-num').val(result.data.id);
+          $('#pro-name').val(result.data.name);
+          $('#pro-price').val(result.data.price);
+          $('#pro-typeId').val(result.data.productTypePO.id);
+          $('#img2').attr('src', '${pageContext.request.contextPath}/backend/product/findImage?path=' +
+            result.data.image);
+        }
+      }
+    );
+  }
 </script>
