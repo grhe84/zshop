@@ -12,4 +12,6 @@ public interface ProductDao {
     List<ProductPO> selectAll();
 
     ProductPO selectById(Integer id);
+
+    void update(ProductPO productPO);
 }

@@ -150,7 +150,13 @@
   <!-- 窗口声明 -->
   <div class="modal-dialog modal-lg">
     <!-- 内容声明 -->
-    <form action="" class="form-horizontal">
+    <form
+      action="${pageContext.request.contextPath}/backend/product/modify"
+      method="post"
+      enctype="multipart/form-data"
+      class="form-horizontal"
+      id="frmModifyProduct"
+    >
       <div class="modal-content">
         <!-- 头部、主体、脚注 -->
         <div class="modal-header">
@@ -162,19 +168,19 @@
             <div class="form-group">
               <label for="pro-num" class="col-sm-4 control-label">商品编号：</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="pro-num" readonly>
+                <input type="text" class="form-control" id="pro-num" name="id" readonly>
               </div>
             </div>
             <div class="form-group">
               <label for="pro-name" class="col-sm-4 control-label">商品名称：</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="pro-name">
+                <input type="text" class="form-control" id="pro-name" name="name">
               </div>
             </div>
             <div class="form-group">
               <label for="pro-price" class="col-sm-4 control-label">商品价格：</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="pro-price">
+                <input type="text" class="form-control" id="pro-price" name="price">
               </div>
             </div>
             <div class="form-group">
@@ -188,7 +194,7 @@
             <div class="form-group">
               <label for="product-type" class="col-sm-4 control-label">商品类型：</label>
               <div class="col-sm-8">
-                <select class="form-control" id="pro-typeId">
+                <select class="form-control" id="pro-typeId" name="productTypeId">
                   <option value="">--请选择--</option>
                   <c:forEach items="${productTypes}" var="productType">
                       <option value="${productType.id}">${productType.name}</option>
@@ -203,7 +209,7 @@
           </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary updatePro">修改</button>
+            <button class="btn btn-primary updatePro" type="submit">修改</button>
             <button class="btn btn-default cancel" data-dismiss="modal">取消</button>
         </div>
       </div>
@@ -217,11 +223,19 @@
   if ('${addMsg}' == '添加成功') {
     layer.alert('${addMsg}', {
       icon: 1
-    }, function () {
-      location.href = '${pageContext.request.contextPath}/backend/product/findAll';
     });
   } else if ('${addMsg}' == '添加失败') {
     layer.alert('${addMsg}', {
+      icon: 2
+    });
+  }
+
+  if ('${modifyMsg}' == '修改成功') {
+    layer.alert('${modifyMsg}', {
+      icon: 1
+    });
+  } else if ('${modifyMsg}' == '修改失败') {
+    layer.alert('${modifyMsg}', {
       icon: 2
     });
   }
@@ -270,6 +284,42 @@
         validators: {
           notEmpty: {
             message: '情选择商品图片'
+          }
+        }
+      },
+      productTypeId: {
+        validators: {
+          notEmpty: {
+            message: '请选择商品类型'
+          }
+        }
+      }
+    }
+  });
+
+  // 修改商品表单校验
+  $('#frmModifyProduct').bootstrapValidator({
+    feedbackIcons: {
+      valid: 'glyphicon glyphicon-ok',
+      invalid: 'glyphicon glyphicon-remove',
+      validating: 'glyphicon glyphicon-refresh'
+    },
+    fields: {
+      name: {
+        validators: {
+          notEmpty: {
+            message: '商品名称不能为空'
+          }
+        }
+      },
+      price: {
+        validators: {
+          notEmpty: {
+            message: '商品价格不能为空'
+          },
+          regexp: {
+            regexp: /^\d+(\.\d+)?$/,
+            message: '商品价格格式不正确'
           }
         }
       },

@@ -52,4 +52,26 @@
         (#{name}, #{price}, #{image}, #{productTypePO.id})
     </insert>
 
+    <update id="update" parameterType="com.itany.zshop.pojo.ProductPO">
+        update t_product
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="info != null and info != ''">
+                info = #{info},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="productTypePO.id != null and productTypePO.id != ''">
+                product_type_id = #{productTypePO.id},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

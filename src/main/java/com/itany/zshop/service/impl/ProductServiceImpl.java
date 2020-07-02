@@ -10,6 +10,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StreamUtils;
 
 import javax.annotation.Resource;
@@ -64,5 +65,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void findImage(String path, OutputStream outputStream) throws IOException {
         StreamUtils.copy(new FileInputStream(path), outputStream);
+    }
+
+    @Override
+    public void modify(ProductDto productDto) throws Exception {
+        ProductPO productPO = new ProductPO();
+
+        // 文件上传
+        if (!ObjectUtils.isEmpty(productDto.getFileName())) {
+            String uploadPath = productDto.getUploadPath() + "/" + UploadUtil.renameFile(productDto.getFileName());
+            StreamUtils.copy(productDto.getInputStream(), new FileOutputStream(uploadPath));
+            productPO.setImage(uploadPath);
+        }
+
+        // 修改数据库对应数据
+        PropertyUtils.copyProperties(productPO, productDto);
+        ProductTypePO productTypePO = new ProductTypePO();
+        productTypePO.setId(productDto.getProductTypeId());
+        productPO.setProductTypePO(productTypePO);
+
+        productDao.update(productPO);
     }
 }

@@ -71,6 +71,7 @@ $(function(){
     // 商品管理 修改商品
     $(".doProModify").on("click", function() {
         _this = this; //this是事件源
+        $('#frmModifyProduct').data('bootstrapValidator').resetForm();
         $("#myProduct").modal("show");
     });
 
@@ -81,6 +82,7 @@ $(function(){
     // 商品管理 添加商品
     $("#doAddPro").on("click", function() {
         _this = this; //this是事件源
+        $('#frmAddProduct').data('bootstrapValidator').resetForm();
         $("#Product").modal("show");
     });
 

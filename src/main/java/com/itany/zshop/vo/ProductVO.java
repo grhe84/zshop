@@ -4,10 +4,19 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class ProductVO {
 
+    private Integer id;
     private String name;
     private Double price;
     private CommonsMultipartFile file;
     private Integer productTypeId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

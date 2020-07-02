@@ -85,7 +85,27 @@ public class ProductController {
             e.printStackTrace();
             model.addAttribute("addMsg", "添加失败");
         }
-        return "backend/productManager";
+        return "forward:findAll";
+    }
+
+    @RequestMapping("/modify")
+    public String modify(ProductVO productVO, HttpSession session, Model model) {
+        ProductDto productDto = new ProductDto();
+        try {
+            PropertyUtils.copyProperties(productDto, productVO);
+            if (!ObjectUtils.isEmpty(productVO.getFile())) {
+                String uploadPath = session.getServletContext().getRealPath("/WEB-INF/upload");
+                productDto.setInputStream(productVO.getFile().getInputStream());
+                productDto.setFileName(productVO.getFile().getOriginalFilename());
+                productDto.setUploadPath(uploadPath);
+            }
+            productService.modify(productDto);
+            model.addAttribute("modifyMsg", "修改成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("modifyMsg", "修改失败");
+        }
+        return "forward:findAll";
     }
 
     @RequestMapping("/checkName")
