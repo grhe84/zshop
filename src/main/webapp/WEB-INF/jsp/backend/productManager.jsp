@@ -67,7 +67,12 @@
                   onclick="showProduct(${product.id})"
                   value="修改"
                 >
-                <input type="button" class="btn btn-danger btn-sm doProDelete" value="删除">
+                <input
+                  type="button"
+                  class="btn btn-danger btn-sm doProDelete"
+                  onclick="removeProduct(${product.id})"
+                  value="删除"
+                >
               </td>
             </tr>
           </c:forEach>
@@ -349,5 +354,33 @@
         }
       }
     );
+  }
+
+  // 删除商品
+  function removeProduct(id) {
+    layer.confirm('是否删除该商品', {
+      icon: 3,
+      btn: ['确定', '取消']
+    }, function () {
+      $.post(
+        '${pageContext.request.contextPath}/backend/product/removeById',
+        {
+          'id': id
+        },
+        function (result) {
+          if (result.status == 1) {
+            layer.alert(result.message, {
+              icon: 1
+            }, function () {
+              location.href = '${pageContext.request.contextPath}/backend/product?pageNum=${pageInfo.pageNum}';
+            });
+          } else {
+            layer.alert('删除失败', {
+              icon: 2
+            });
+          }
+        }
+      );
+    });
   }
 </script>

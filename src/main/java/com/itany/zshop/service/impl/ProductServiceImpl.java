@@ -86,4 +86,9 @@ public class ProductServiceImpl implements ProductService {
 
         productDao.update(productPO);
     }
+
+    @Override
+    public void removeById(Integer id) {
+        productDao.deleteById(id);
+    }
 }

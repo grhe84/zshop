@@ -108,6 +108,16 @@ public class ProductController {
         return "forward:findAll";
     }
 
+    @RequestMapping("/removeById")
+    @ResponseBody
+    public ResponseResult removeById(Integer id) {
+        ResponseResult result = new ResponseResult();
+        productService.removeById(id);
+        result.setStatus(1);
+        result.setMessage("删除成功");
+        return result;
+    }
+
     @RequestMapping("/checkName")
     @ResponseBody
     public Map<String, Object> checkName(String name) {

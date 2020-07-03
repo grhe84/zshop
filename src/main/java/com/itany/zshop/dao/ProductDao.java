@@ -14,4 +14,6 @@ public interface ProductDao {
     ProductPO selectById(Integer id);
 
     void update(ProductPO productPO);
+
+    void deleteById(Integer id);
 }

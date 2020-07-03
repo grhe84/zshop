@@ -19,4 +19,6 @@ public interface ProductService {
     void findImage(String path, OutputStream outputStream) throws IOException;
 
     void modify(ProductDto productDto) throws Exception;
+
+    void removeById(Integer id);
 }
