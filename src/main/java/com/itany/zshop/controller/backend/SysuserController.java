@@ -1,15 +1,39 @@
 package com.itany.zshop.controller.backend;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.itany.zshop.pojo.SysuserPO;
+import com.itany.zshop.service.SysuserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 @RequestMapping("/backend/sysuser")
 public class SysuserController {
 
+    @Resource
+    private SysuserService sysuserService;
+
     @RequestMapping("/login")
     public String login() {
         return "backend/main";
+    }
+
+    @RequestMapping("/findAll")
+    public String findAll(Integer pageNum, Model model) {
+        if (ObjectUtils.isEmpty(pageNum)) {
+            pageNum = 1;
+        }
+        PageHelper.startPage(pageNum, 5);
+        List<SysuserPO> sysusers = sysuserService.findAll();
+        PageInfo<SysuserPO> pageInfo = new PageInfo<>(sysusers);
+        model.addAttribute("pageInfo", pageInfo);
+        return "backend/sysuserManager";
     }
 
 }

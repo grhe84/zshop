@@ -23,7 +23,7 @@
         $("#frame-id").attr("src", "customerManager.html");
       });
       $("#manager-set").click(function() {
-        $("#frame-id").attr("src", "sysuserManager.html");
+        $("#frame-id").attr("src", "${pageContext.request.contextPath}/backend/sysuser/findAll");
       });
     });
   </script>
