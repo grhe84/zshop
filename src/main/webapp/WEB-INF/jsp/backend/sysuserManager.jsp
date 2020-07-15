@@ -13,6 +13,7 @@
   <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
   <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
+  <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
 </head>
 <body>
 <!-- 系统用户管理 -->
@@ -110,65 +111,68 @@
   <!-- 窗口声明 -->
   <div class="modal-dialog">
     <!-- 内容声明 -->
-    <div class="modal-content">
-      <!-- 头部、主体、脚注 -->
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">添加系统用户</h4>
+    <form id="frmAddSysuser">
+      <div class="modal-content">
+        <!-- 头部、主体、脚注 -->
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">添加系统用户</h4>
+        </div>
+        <div class="modal-body text-center">
+          <div class="row text-right">
+            <label for="marger-username" class="col-sm-4 control-label">用户姓名：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="marger-username" name="name">
+            </div>
+          </div>
+          <br>
+          <div class="row text-right">
+            <label for="marger-loginName" class="col-sm-4 control-label">登录帐号：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="marger-loginName" name="loginName">
+            </div>
+          </div>
+          <br>
+          <div class="row text-right">
+            <label for="marger-password" class="col-sm-4 control-label">登录密码：</label>
+            <div class="col-sm-4">
+              <input type="password" class="form-control" id="marger-password" name="password">
+            </div>
+          </div>
+          <br>
+          <div class="row text-right">
+            <label for="marger-phone" class="col-sm-4 control-label">联系电话：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="marger-phone" name="phone">
+            </div>
+          </div>
+          <br>
+          <div class="row text-right">
+            <label for="marger-email" class="col-sm-4 control-label">联系邮箱：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="marger-email" name="email">
+            </div>
+          </div>
+          <br>
+          <div class="row text-right">
+            <label for="role" class="col-sm-4 control-label">角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
+            <div class="col-sm-4">
+              <select class="form-control" name="roleId">
+                <option value="">--请选择--</option>
+                <option value="1">商品专员</option>
+                <option value="2">营销经理</option>
+                <option value="3">超级管理员</option>
+              </select>
+            </div>
+          </div>
+          <br>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary add-Manger" type="button" onclick="addSysuser()">添加</button>
+          <button class="btn btn-primary cancel" data-dismiss="modal" type="button">取消</button>
+        </div>
       </div>
-      <div class="modal-body text-center">
-        <div class="row text-right">
-          <label for="marger-username" class="col-sm-4 control-label">用户姓名：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="marger-username">
-          </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="marger-loginName" class="col-sm-4 control-label">登录帐号：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="marger-loginName">
-          </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="marger-password" class="col-sm-4 control-label">登录密码：</label>
-          <div class="col-sm-4">
-            <input type="password" class="form-control" id="marger-password">
-          </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="marger-phone" class="col-sm-4 control-label">联系电话：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="marger-phone">
-          </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="marger-adrees" class="col-sm-4 control-label">联系邮箱：</label>
-          <div class="col-sm-4">
-            <input type="email" class="form-control" id="marger-email">
-          </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="role" class="col-sm-4 control-label">角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
-          <div class="col-sm-4">
-            <select class="form-control">
-              <option>请选择</option>
-              <option>超级系统用户</option>
-              <option>商品系统用户</option>
-            </select>
-          </div>
-        </div>
-        <br>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary add-Manger" type="button">添加</button>
-        <button class="btn btn-primary cancel" data-dismiss="modal" type="button">取消</button>
-      </div>
-    </div>
+    </form>
   </div>
 </div>
 <!-- 添加系统用户 end -->
@@ -251,4 +255,21 @@
       return '${pageContext.request.contextPath}/backend/sysuser/findAll?pageNum=' + page;
     }
   });
+  
+  // 添加系统用户
+  function addSysuser() {
+    $.post(
+      '${pageContext.request.contextPath}/backend/sysuser/add',
+      $('#frmAddSysuser').serialize(),
+      function (result) {
+        if (result.status == 1) {
+          layer.alert(result.message, {
+            icon: 1
+          }, function () {
+            location.href = '${pageContext.request.contextPath}/backend/sysuser/findAll?pageNum=' + ${pageInfo.pageNum}
+          });
+        }
+      }
+    );
+  }
 </script>
