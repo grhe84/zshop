@@ -23,36 +23,83 @@
   </div>
   <div class="panel-body">
     <div class="showmargersearch">
-      <form class="form-inline">
+      <form
+        class="form-inline"
+        action="${pageContext.request.contextPath}/backend/sysuser/findByParam"
+        method="post"
+      >
         <div class="form-group">
           <label for="userName">姓名:</label>
-          <input type="text" class="form-control" id="userName" placeholder="请输入姓名">
+          <input
+            type="text"
+            class="form-control"
+            id="userName"
+            placeholder="请输入姓名"
+            name="name"
+            value="${sysuserParam.name}"
+          >
         </div>
         <div class="form-group">
           <label for="loginName">帐号:</label>
-          <input type="text" class="form-control" id="loginName" placeholder="请输入帐号">
+          <input
+            type="text"
+            class="form-control"
+            id="loginName"
+            placeholder="请输入帐号"
+            name="loginName"
+            value="${sysuserParam.loginName}"
+          >
         </div>
         <div class="form-group">
           <label for="phone">电话:</label>
-          <input type="text" class="form-control" id="phone" placeholder="请输入电话">
+          <input
+            type="text"
+            class="form-control"
+            id="phone"
+            placeholder="请输入电话"
+            name="phone"
+            value="${sysuserParam.phone}"
+          >
         </div>
         <div class="form-group">
           <label for="role">角色</label>
-          <select class="form-control" name="role" id="role">
-            <option value="-1">全部</option>
-            <option value="1">商品专员</option>
-            <option value="0">营销经理</option>
+          <select class="form-control" name="roleId" id="role">
+            <option
+              value=""
+              <c:if test="${sysuserParam.roleId == ''}">selected</c:if>
+            >全部</option>
+            <option
+              value="1"
+              <c:if test="${sysuserParam.roleId == 1}">selected</c:if>
+            >商品专员</option>
+            <option
+              value="2"
+              <c:if test="${sysuserParam.roleId == 2}">selected</c:if>
+            >营销经理</option>
+            <option
+              value="3"
+              <c:if test="${sysuserParam.roleId == 3}">selected</c:if>
+            >超级管理员</option>
           </select>
         </div>
         <div class="form-group">
           <label for="status">状态</label>
           <select class="form-control" name="isValid" id="status">
-            <option value="-1">全部</option>
-            <option value="1">---有效---</option>
-            <option value="0">---无效---</option>
+            <option
+              value="-1"
+              <c:if test="${sysuserParam.isValid == ''}">selected</c:if>
+            >全部</option>
+            <option
+              value="1"
+              <c:if test="${sysuserParam.isValid == 1}">selected</c:if>
+            >有效</option>
+            <option
+              value="0"
+              <c:if test="${sysuserParam.isValid == 0}">selected</c:if>
+            >无效</option>
           </select>
         </div>
-        <input type="button" value="查询" class="btn btn-primary" id="doSearch">
+        <input type="submit" value="查询" class="btn btn-primary" id="doSearch">
       </form>
     </div>
     <br>

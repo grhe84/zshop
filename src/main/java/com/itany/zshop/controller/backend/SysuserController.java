@@ -3,6 +3,7 @@ package com.itany.zshop.controller.backend;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.itany.zshop.common.util.ResponseResult;
+import com.itany.zshop.param.SysuserParam;
 import com.itany.zshop.pojo.SysuserPO;
 import com.itany.zshop.service.SysuserService;
 import com.itany.zshop.vo.SysuserVO;
@@ -36,6 +37,19 @@ public class SysuserController {
         List<SysuserPO> sysusers = sysuserService.findAll();
         PageInfo<SysuserPO> pageInfo = new PageInfo<>(sysusers);
         model.addAttribute("pageInfo", pageInfo);
+        return "backend/sysuserManager";
+    }
+
+    @RequestMapping("/findByParam")
+    public String findByParam(Integer pageNum, SysuserParam sysuserParam, Model model) {
+        if (ObjectUtils.isEmpty(pageNum)) {
+            pageNum = 1;
+        }
+        PageHelper.startPage(pageNum, 5);
+        List<SysuserPO> sysusers = sysuserService.findByParam(sysuserParam);
+        PageInfo<SysuserPO> pageInfo = new PageInfo<>(sysusers);
+        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("sysuserParam", sysuserParam);
         return "backend/sysuserManager";
     }
 

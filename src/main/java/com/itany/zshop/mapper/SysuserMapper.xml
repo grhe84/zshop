@@ -27,6 +27,31 @@
         on s.role_id = r.id
     </select>
 
+    <select id="selectByParam" parameterType="com.itany.zshop.param.SysuserParam" resultMap="sysuserMap">
+        select
+        s.id,s.name,s.login_name,s.password,s.phone,s.email,s.is_valid,s.create_date,s.role_id,r.id 'r.id',r.role_name
+        from t_sysuser s
+        left join t_role r
+        on s.role_id = r.id
+        <where>
+            <if test="name!=null and name!=''">
+                and name like concat(concat('%', #{name}), '%')
+            </if>
+            <if test="loginName!= null and loginName!= ''">
+                and login_name like concat(concat('%', #{loginName}), '%')
+            </if>
+            <if test="phone!=null and phone!=''">
+                and phone = #{phone}
+            </if>
+            <if test="roleId!=null and roleId!=''">
+                and role_id = #{roleId}
+            </if>
+            <if test="isValid!=null and isValid!=-1">
+                and is_valid = #{isValid}
+            </if>
+        </where>
+    </select>
+
     <insert id="insert" parameterType="com.itany.zshop.pojo.SysuserPO">
         insert into t_sysuser
         (name, login_name, password, phone, email, is_valid, create_date, role_id)

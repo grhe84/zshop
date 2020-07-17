@@ -1,6 +1,7 @@
 package com.itany.zshop.service.impl;
 
 import com.itany.zshop.dao.SysuserDao;
+import com.itany.zshop.param.SysuserParam;
 import com.itany.zshop.pojo.RolePO;
 import com.itany.zshop.pojo.SysuserPO;
 import com.itany.zshop.service.SysuserService;
@@ -37,5 +38,11 @@ public class SysuserServiceImpl implements SysuserService {
         rolePO.setId(sysuserVO.getRoleId());
         sysuserPO.setRolePO(rolePO);
         sysuserDao.insert(sysuserPO);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<SysuserPO> findByParam(SysuserParam sysuserParam) {
+        return sysuserDao.selectByParam(sysuserParam);
     }
 }
