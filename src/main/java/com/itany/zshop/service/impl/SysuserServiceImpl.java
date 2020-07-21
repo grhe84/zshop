@@ -45,4 +45,11 @@ public class SysuserServiceImpl implements SysuserService {
     public List<SysuserPO> findByParam(SysuserParam sysuserParam) {
         return sysuserDao.selectByParam(sysuserParam);
     }
+
+    @Override
+    public void modifyStatus(Integer id) {
+        SysuserPO sysuserPO = sysuserDao.selectById(id);
+        Integer status = (sysuserPO.getIsValid() == 1) ? 0 : 1;
+        sysuserDao.updateStatus(id, status);
+    }
 }

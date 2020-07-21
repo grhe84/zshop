@@ -12,4 +12,6 @@ public interface SysuserService {
     void add(SysuserVO sysuserVO) throws Exception;
 
     List<SysuserPO> findByParam(SysuserParam sysuserParam);
+
+    void modifyStatus(Integer id);
 }

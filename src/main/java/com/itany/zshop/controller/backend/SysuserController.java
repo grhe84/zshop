@@ -67,4 +67,14 @@ public class SysuserController {
         return result;
     }
 
+    @RequestMapping("/modifyStatus")
+    @ResponseBody
+    public ResponseResult modifyStatus(Integer id) {
+        ResponseResult result = new ResponseResult();
+        sysuserService.modifyStatus(id);
+        result.setStatus(1);
+        result.setMessage("修改成功");
+        return result;
+    }
+
 }

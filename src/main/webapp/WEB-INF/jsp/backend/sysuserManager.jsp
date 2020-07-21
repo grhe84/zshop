@@ -138,10 +138,20 @@
               <td class="text-center">
                 <input type="button" class="btn btn-warning btn-sm doMangerModify" value="修改">
                 <c:if test="${sysuser.isValid == 1}">
-                  <input type="button" class="btn btn-danger btn-sm doMangerDisable" value="禁用">
+                  <input
+                    type="button"
+                    class="btn btn-danger btn-sm doMangerDisable"
+                    value="禁用"
+                    onclick="modifySysuserStatus(${sysuser.id}, this)"
+                  >
                 </c:if>
                 <c:if test="${sysuser.isValid == 0}">
-                  <input type="button" class="btn btn-success btn-sm doMangerDisable" value="启用">
+                  <input
+                    type="button"
+                    class="btn btn-success btn-sm doMangerDisable"
+                    value="启用"
+                    onclick="modifySysuserStatus(${sysuser.id}, this)"
+                  >
                 </c:if>
               </td>
             </tr>
@@ -275,9 +285,10 @@
           <label for="MargerRole" class="col-sm-4 control-label">角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
           <div class=" col-sm-4">
             <select class="form-control" id="MargerRole">
-              <option>请选择</option>
-              <option>超级系统用户</option>
-              <option>商品系统用户</option>
+              <option value="">--请选择--</option>
+              <option value="1">商品专员</option>
+              <option value="2">营销经理</option>
+              <option value="3">超级管理员</option>
             </select>
           </div>
         </div>
@@ -315,6 +326,26 @@
           }, function () {
             location.href = '${pageContext.request.contextPath}/backend/sysuser/findAll?pageNum=' + ${pageInfo.pageNum}
           });
+        }
+      }
+    );
+  }
+
+  // 修改系统用户状态
+  function modifySysuserStatus(id, btn) {
+    $.post(
+      '${pageContext.request.contextPath}/backend/sysuser/modifyStatus',
+      {'id': id},
+      function (result) {
+        if (result.status == 1) {
+          let $status = $(btn).parent().parent().children().eq(5);
+          if ($status.text().trim() == '有效') {
+            $status.text('无效');
+            $(btn).val('启用').removeClass('btn-danger').addClass('btn-success');
+          } else if ($status.text().trim() == '无效') {
+            $status.text('有效');
+            $(btn).val('禁用').removeClass('btn-success').addClass('btn-danger');
+          }
         }
       }
     );
