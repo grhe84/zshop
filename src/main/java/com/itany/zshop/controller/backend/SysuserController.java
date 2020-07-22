@@ -53,6 +53,15 @@ public class SysuserController {
         return "backend/sysuserManager";
     }
 
+    @RequestMapping("/findById")
+    @ResponseBody
+    public ResponseResult findById(Integer id) {
+        ResponseResult result = new ResponseResult();
+        result.setStatus(1);
+        result.setData(sysuserService.findById(id));
+        return result;
+    }
+
     @RequestMapping("/add")
     @ResponseBody
     public ResponseResult add(SysuserVO sysuserVO) {
@@ -63,6 +72,22 @@ public class SysuserController {
             result.setMessage("添加成功");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping("/modify")
+    @ResponseBody
+    public ResponseResult modify(SysuserVO sysuserVO) {
+        ResponseResult result = new ResponseResult();
+        try {
+            sysuserService.modify(sysuserVO);
+            result.setStatus(1);
+            result.setMessage("修改成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatus(0);
+            result.setMessage("修改失败");
         }
         return result;
     }

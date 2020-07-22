@@ -8,11 +8,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>backend</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrapvalidator.min.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css" />
   <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
   <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap-paginator.js"></script>
+  <script src="${pageContext.request.contextPath}/js/bootstrapvalidator.min.js"></script>
   <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
 </head>
 <body>
@@ -136,7 +138,12 @@
               </td>
               <td>${sysuser.rolePO.name}</td>
               <td class="text-center">
-                <input type="button" class="btn btn-warning btn-sm doMangerModify" value="修改">
+                <input
+                  type="button"
+                  class="btn btn-warning btn-sm doMangerModify"
+                  value="修改"
+                  onclick="showSysuser(${sysuser.id})"
+                >
                 <c:if test="${sysuser.isValid == 1}">
                   <input
                     type="button"
@@ -245,59 +252,88 @@
         <button class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">系统用户修改</h4>
       </div>
-      <div class="modal-body text-center">
-        <div class="row text-right">
-          <label for="MargerUsername" class="col-sm-4 control-label">用户编号：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="MargerStaffId" readonly="readonly">
+      <form id="frmModifySysuser">
+        <div class="modal-body text-center">
+          <div class="row text-right">
+            <label for="MargerStaffId" class="col-sm-4 control-label">用户编号：</label>
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control"
+                id="MargerStaffId"
+                readonly="readonly"
+                name="id"
+              >
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="MargerUsername" class="col-sm-4 control-label">用户姓名：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="MargerStaffname">
+          <br>
+          <div class="row text-right">
+            <label for="MargerStaffname" class="col-sm-4 control-label">用户姓名：</label>
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control"
+                id="MargerStaffname"
+                name="name"
+              >
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="MargerLoginName" class="col-sm-4 control-label">登录帐号：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="MargerLoginName" readonly="readonly">
+          <br>
+          <div class="row text-right">
+            <label for="MargerLoginName" class="col-sm-4 control-label">登录帐号：</label>
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control"
+                id="MargerLoginName"
+                readonly="readonly"
+                name="loginName"
+              >
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="MargerPhone" class="col-sm-4 control-label">联系电话：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="MargerPhone">
+          <br>
+          <div class="row text-right">
+            <label for="MargerPhone" class="col-sm-4 control-label">联系电话：</label>
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control"
+                id="MargerPhone"
+                name="phone"
+              >
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="MargerAdrees" class="col-sm-4 control-label">联系邮箱：</label>
-          <div class="col-sm-4">
-            <input type="email" class="form-control" id="MargerAdrees">
+          <br>
+          <div class="row text-right">
+            <label for="MargerAdrees" class="col-sm-4 control-label">联系邮箱：</label>
+            <div class="col-sm-4">
+              <input
+                type="text"
+                class="form-control"
+                id="MargerAdrees"
+                name="email"
+              >
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="MargerRole" class="col-sm-4 control-label">角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
-          <div class=" col-sm-4">
-            <select class="form-control" id="MargerRole">
-              <option value="">--请选择--</option>
-              <option value="1">商品专员</option>
-              <option value="2">营销经理</option>
-              <option value="3">超级管理员</option>
-            </select>
+          <br>
+          <div class="row text-right">
+            <label for="MargerRole" class="col-sm-4 control-label">角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</label>
+            <div class=" col-sm-4">
+              <select class="form-control" id="MargerRole" name="roleId">
+                <option value="">--请选择--</option>
+                <option value="1">商品专员</option>
+                <option value="2">营销经理</option>
+                <option value="3">超级管理员</option>
+              </select>
+            </div>
           </div>
+          <br>
         </div>
-        <br>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary doMargerModal">修改</button>
-        <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
-      </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary doMargerModal" type="submit">修改</button>
+          <button class="btn btn-default cancel" data-dismiss="modal">取消</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -313,7 +349,83 @@
       return '${pageContext.request.contextPath}/backend/sysuser/findAll?pageNum=' + page;
     }
   });
-  
+
+  // 修改系统用户表单校验
+  $('#frmModifySysuser').bootstrapValidator({
+    feedbackIcons: {
+      valid: 'glyphicon glyphicon-ok',
+      invalid: 'glyphicon glyphicon-remove',
+      validating: 'glyphicon glyphicon-refresh'
+    },
+    fields: {
+      name: {
+        validators: {
+          notEmpty: {
+            message: '系统用户姓名不能为空'
+          }
+        }
+      },
+      phone: {
+        validators: {
+          notEmpty: {
+            message: '联系电话不能为空'
+          },
+          regexp: {
+            regexp: /^1[3456789]\d{9}$/,
+            message: '联系电话格式不正确'
+          }
+        }
+      },
+      email: {
+        validators: {
+          notEmpty: {
+            message: '联系邮箱不能为空'
+          },
+          regexp: {
+            regexp: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+            message: '联系邮箱格式不正确'
+          }
+        }
+      },
+      roleId: {
+        validators: {
+          notEmpty: {
+            message: '角色不能为空'
+          }
+        }
+      }
+    }
+  }).on('success.form.bv', function (e) {
+    e.preventDefault();
+    let $form = $(e.target);
+    let bv = $form.data('bootstrapValidator');
+    $.post(
+      '${pageContext.request.contextPath}/backend/sysuser/modify',
+      $form.serialize(),
+      function (result) {
+        if (result.status == 1) {
+          layer.alert(
+            result.message,
+            {
+              icon: 1
+            },
+            function () {
+              location.href =
+                '${pageContext.request.contextPath}/backend/sysuser/findByParam?pageNum=${pageInfo.pageNum}';
+            }
+          );
+        } else {
+          layer.alert(
+            result.message,
+            {
+              icon: 2
+            }
+          );
+        }
+      }
+    );
+  });
+
   // 添加系统用户
   function addSysuser() {
     $.post(
@@ -346,6 +458,24 @@
             $status.text('有效');
             $(btn).val('禁用').removeClass('btn-success').addClass('btn-danger');
           }
+        }
+      }
+    );
+  }
+
+  // 点击修改显示系统用户信息
+  function showSysuser(id) {
+    $.post(
+      '${pageContext.request.contextPath}/backend/sysuser/findById',
+      {'id': id},
+      function (result) {
+        if (result.status == 1) {
+          $('#MargerStaffId').val(result.data.id);
+          $('#MargerStaffname').val(result.data.name);
+          $('#MargerLoginName').val(result.data.loginName);
+          $('#MargerPhone').val(result.data.phone);
+          $('#MargerAdrees').val(result.data.email);
+          $('#MargerRole').val(result.data.rolePO.id);
         }
       }
     );

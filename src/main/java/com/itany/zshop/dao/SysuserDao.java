@@ -16,4 +16,6 @@ public interface SysuserDao {
     SysuserPO selectById(Integer id);
 
     void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
+
+    void update(SysuserPO sysuserPO);
 }

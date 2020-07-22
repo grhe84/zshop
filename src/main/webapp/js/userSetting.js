@@ -31,6 +31,7 @@ $(function(){
     // 管理员管理 修改管理员模态框
     $(".doMangerModify").on("click", function() {
         _this = this; //this是事件源
+        $('#frmModifySysuser').data('bootstrapValidator').resetForm();
         $("#myModal-Manger").modal("show");
     });
 

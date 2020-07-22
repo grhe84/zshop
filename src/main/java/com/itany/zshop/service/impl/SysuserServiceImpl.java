@@ -52,4 +52,20 @@ public class SysuserServiceImpl implements SysuserService {
         Integer status = (sysuserPO.getIsValid() == 1) ? 0 : 1;
         sysuserDao.updateStatus(id, status);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public SysuserPO findById(Integer id) {
+        return sysuserDao.selectById(id);
+    }
+
+    @Override
+    public void modify(SysuserVO sysuserVO) throws Exception {
+        SysuserPO sysuserPO = new SysuserPO();
+        PropertyUtils.copyProperties(sysuserPO, sysuserVO);
+        RolePO rolePO = new RolePO();
+        rolePO.setId(sysuserVO.getRoleId());
+        sysuserPO.setRolePO(rolePO);
+        sysuserDao.update(sysuserPO);
+    }
 }

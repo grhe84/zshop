@@ -68,6 +68,37 @@
         (#{name}, #{loginName}, #{password}, #{phone}, #{email}, #{isValid}, #{createDate}, #{rolePO.id})
     </insert>
 
+    <update id="update" parameterType="com.itany.zshop.pojo.SysuserPO">
+        update t_sysuser
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="loginName != null and loginName != ''">
+                login_name = #{loginName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="isValid != null and isValid != ''">
+                is_valid = #{isValid},
+            </if>
+            <if test="createDate != null and createDate != ''">
+                create_date = #{createDate},
+            </if>
+            <if test="rolePO != null">
+                role_id = #{rolePO.id},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
     <update id="updateStatus">
         update t_sysuser
         set is_valid = #{status}
