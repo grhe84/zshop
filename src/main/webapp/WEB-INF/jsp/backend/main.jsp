@@ -20,7 +20,7 @@
         $("#frame-id").attr("src", "${pageContext.request.contextPath}/backend/product/findAll");
       });
       $("#user-set").click(function() {
-        $("#frame-id").attr("src", "customerManager.html");
+        $("#frame-id").attr("src", "${pageContext.request.contextPath}/backend/customer/findAll");
       });
       $("#manager-set").click(function() {
         $("#frame-id").attr("src", "${pageContext.request.contextPath}/backend/sysuser/findAll");

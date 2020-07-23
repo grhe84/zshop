@@ -28,6 +28,16 @@ $(function(){
         $("#myMangerUser").modal("hide");
     });
 
+    //管理员管理 添加客户模态框
+    $('#doAddCustomer').on("click", function () {
+        $('#frmAddCustomer').data('bootstrapValidator').resetForm();
+        $('#myModal-Customer').modal("show");
+    });
+
+    $('.add-Customer').on("click", function () {
+        $("#myModal-Customer").modal("hide");
+    });
+
     // 管理员管理 修改管理员模态框
     $(".doMangerModify").on("click", function() {
         _this = this; //this是事件源
@@ -130,7 +140,6 @@ $(function(){
 	$('#file').change(function() {
         $("#showImg").attr("src", window.URL.createObjectURL(this.files[0]));
     });
-
 
 });
 
