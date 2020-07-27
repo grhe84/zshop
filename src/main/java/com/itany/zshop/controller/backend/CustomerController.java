@@ -1,12 +1,18 @@
 package com.itany.zshop.controller.backend;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.itany.zshop.pojo.CustomerPO;
 import com.itany.zshop.service.CustomerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -17,7 +23,14 @@ public class CustomerController {
     private CustomerService customerService;
 
     @RequestMapping("/findAll")
-    public String findAll() {
+    public String findAll(Integer pageNum, Model model) {
+        if (ObjectUtils.isEmpty(pageNum)) {
+            pageNum = 1;
+        }
+        PageHelper.startPage(pageNum, 5);
+        List<CustomerPO> customers = customerService.findAll();
+        PageInfo<CustomerPO> pageInfo = new PageInfo<>(customers);
+        model.addAttribute("pageInfo", pageInfo);
         return "backend/customerManager";
     }
 
@@ -27,6 +40,13 @@ public class CustomerController {
         Map<String, Object> map = new HashMap<>();
         map.put("valid", customerService.checkLoginName(loginName));
         return map;
+    }
+
+    @RequestMapping("/add")
+    public String add(CustomerPO customerPO, Model model) {
+        customerService.add(customerPO);
+        model.addAttribute("updateMsg", "添加成功");
+        return "forward:findAll";
     }
 
 }

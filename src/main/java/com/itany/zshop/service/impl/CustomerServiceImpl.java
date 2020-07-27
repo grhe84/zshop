@@ -1,12 +1,15 @@
 package com.itany.zshop.service.impl;
 
 import com.itany.zshop.dao.CustomerDao;
+import com.itany.zshop.pojo.CustomerPO;
 import com.itany.zshop.service.CustomerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -19,5 +22,19 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Boolean checkLoginName(String loginName) {
         return customerDao.selectByLoginName(loginName) == null;
+    }
+
+    @Override
+    public void add(CustomerPO customerPO) {
+        customerPO.setPassword("123456");
+        customerPO.setIsValid(1);
+        customerPO.setRegistDate(new Date());
+        customerDao.insert(customerPO);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<CustomerPO> findAll() {
+        return customerDao.selectAll();
     }
 }

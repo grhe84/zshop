@@ -14,11 +14,23 @@
         <result property="isValid" column="is_valid"/>
         <result property="registDate" column="regist_date"/>
     </resultMap>
+
+    <select id="selectAll" resultMap="customerMap">
+        select *
+        from t_customer
+    </select>
     
     <select id="selectByLoginName" resultMap="customerMap">
         select *
         from t_customer
         where login_name = #{loginName}
     </select>
+
+    <insert id="insert" parameterType="com.itany.zshop.pojo.CustomerPO">
+        insert into t_customer
+        (name, login_name, password, phone, address, is_valid, regist_date)
+        values
+        (#{name}, #{loginName}, #{password}, #{phone}, #{address}, #{isValid}, #{registDate})
+    </insert>
 
 </mapper>

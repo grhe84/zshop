@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="zh">
 <head>
@@ -66,7 +67,7 @@
     </div>
     <br>
     <input type="button" value="添加客户" class="btn btn-primary" id="doAddCustomer">
-    <div class="show-list" style="position: relative;top: 30px;">
+    <div class="show-list text-center" style="position: relative;top: 30px;">
       <table class="table table-bordered table-hover" style='text-align: center;'>
         <thead>
         <tr class="text-danger">
@@ -80,20 +81,31 @@
         </tr>
         </thead>
         <tbody id="tb">
-        <tr>
-          <td>1</td>
-          <td>admin</td>
-          <td>admin</td>
-          <td>15996868058</td>
-          <td>江苏南京</td>
-          <td>有效</td>
-          <td class="text-center">
-            <input type="button" class="btn btn-primary btn-sm doModify" value="修改">
-            <input type="button" class="btn btn-danger btn-sm doDisable" value="禁用">
-          </td>
-        </tr>
+        <c:forEach items="${pageInfo.list}" var="customer">
+          <tr>
+            <td>${customer.id}</td>
+            <td>${customer.name}</td>
+            <td>${customer.loginName}</td>
+            <td>${customer.phone}</td>
+            <td>${customer.address}</td>
+            <td>
+              <c:if test="${customer.isValid == 1}">有效</c:if>
+              <c:if test="${customer.isValid == 0}">无效</c:if>
+            </td>
+            <td class="text-center">
+              <input type="button" class="btn btn-primary btn-sm doModify" value="修改">
+              <c:if test="${customer.isValid == 1}">
+                <input type="button" class="btn btn-danger btn-sm doDisable" value="禁用">
+              </c:if>
+              <c:if test="${customer.isValid == 0}">
+                <input type="button" class="btn btn-success btn-sm doDisable" value="启用">
+              </c:if>
+            </td>
+          </tr>
+        </c:forEach>
         </tbody>
       </table>
+      <ul class="pagination"></ul>
     </div>
   </div>
 </div>
@@ -212,6 +224,22 @@
 </body>
 </html>
 <script type="text/javascript">
+  // 分页插件
+  $('.pagination').bootstrapPaginator({
+    bootstrapMajorVersion: 3,
+    currentPage: ${pageInfo.pageNum},
+    totalPages: ${pageInfo.pages},
+    pageUrl: function (type, page, current) {
+      return '${pageContext.request.contextPath}/backend/customer/findAll?pageNum=' + page;
+    }
+  });
+
+  if ('${updateMsg}' != '') {
+    layer.msg('${updateMsg}', {
+      icon: 1
+    });
+  }
+
   // 添加客户表单校验
   $('#frmAddCustomer').bootstrapValidator({
     feedbackIcons: {
