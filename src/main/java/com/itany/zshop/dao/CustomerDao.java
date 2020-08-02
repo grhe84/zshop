@@ -10,4 +10,8 @@ public interface CustomerDao {
     void insert(CustomerPO customerPO);
 
     List<CustomerPO> selectAll();
+
+    CustomerPO selectById(Integer id);
+
+    void update(CustomerPO customerPO);
 }

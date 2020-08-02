@@ -93,7 +93,12 @@
               <c:if test="${customer.isValid == 0}">无效</c:if>
             </td>
             <td class="text-center">
-              <input type="button" class="btn btn-primary btn-sm doModify" value="修改">
+              <input
+                type="button"
+                class="btn btn-warning btn-sm doModify"
+                value="修改"
+                onclick="showCustomer(${customer.id})"
+              >
               <c:if test="${customer.isValid == 1}">
                 <input type="button" class="btn btn-danger btn-sm doDisable" value="禁用">
               </c:if>
@@ -165,58 +170,66 @@
   </div>
 </div>
 <!-- 添加客户 end -->
+
 <!-- 修改客户信息 start -->
 <div class="modal fade" tabindex="-1" id="myModal">
   <!-- 窗口声明 -->
   <div class="modal-dialog">
     <!-- 内容声明 -->
     <div class="modal-content">
-      <!-- 头部、主体、脚注 -->
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">修改客户</h4>
-      </div>
-      <div class="modal-body text-center">
-        <div class="row text-right">
-          <label for="id" class="col-sm-4 control-label">编号：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="id">
-          </div>
+      <form
+        action="${pageContext.request.contextPath}/backend/customer/modify"
+        method="post"
+        id="frmModifyCustomer"
+      >
+        <!-- 头部、主体、脚注 -->
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">修改客户</h4>
         </div>
-        <br>
-        <div class="row text-right">
-          <label for="name" class="col-sm-4 control-label">姓名：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="name">
+        <div class="modal-body text-center">
+          <input type="hidden" value="${pageInfo.pageNum}" name="pageNum">
+          <div class="row text-right">
+            <label for="id" class="col-sm-4 control-label">编号：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="id" name="id" readonly>
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="loginName" class="col-sm-4 control-label">帐号：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="loginName">
+          <br>
+          <div class="row text-right">
+            <label for="name" class="col-sm-4 control-label">姓名：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="name" name="name">
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="phone" class="col-sm-4 control-label">电话：</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="phone">
+          <br>
+          <div class="row text-right">
+            <label for="loginName" class="col-sm-4 control-label">帐号：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="loginName" name="loginName" readonly>
+            </div>
           </div>
-        </div>
-        <br>
-        <div class="row text-right">
-          <label for="adrees" class="col-sm-4 control-label">地址：</label>
-          <div class="col-sm-4">
-            <input type="email" class="form-control" id="adrees">
+          <br>
+          <div class="row text-right">
+            <label for="phone" class="col-sm-4 control-label">电话：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="phone" name="phone">
+            </div>
           </div>
+          <br>
+          <div class="row text-right">
+            <label for="address" class="col-sm-4 control-label">地址：</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="address" name="address">
+            </div>
+          </div>
+          <br>
         </div>
-        <br>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary updateOne">修改</button>
-        <button class="btn btn-default cancel" data-dismiss="modal">取消</button>
-      </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary updateOne" type="submit">修改</button>
+          <button class="btn btn-default cancel" data-dismiss="modal">取消</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -238,6 +251,23 @@
     layer.msg('${updateMsg}', {
       icon: 1
     });
+  }
+
+  // 显示客户
+  function showCustomer(id) {
+    $.post(
+      '${pageContext.request.contextPath}/backend/customer/findById',
+      {'id': id},
+      function (result) {
+        if (result.status == 1) {
+          $('#id').val(result.data.id);
+          $('#name').val(result.data.name);
+          $('#loginName').val(result.data.loginName);
+          $('#phone').val(result.data.phone);
+          $('#address').val(result.data.address);
+        }
+      }
+    );
   }
 
   // 添加客户表单校验
@@ -263,6 +293,42 @@
           remote: {
             url: '${pageContext.request.contextPath}/backend/customer/checkLoginName',
             message: '账号已存在'
+          }
+        }
+      },
+      phone: {
+        validators: {
+          notEmpty: {
+            message: '电话不能为空'
+          },
+          regexp: {
+            regexp: /^1[3456789]\d{9}$/,
+            message: '电话格式不正确'
+          }
+        }
+      },
+      address: {
+        validators: {
+          notEmpty: {
+            message: '地址不能为空'
+          }
+        }
+      }
+    }
+  });
+
+  // 修改客户表单校验
+  $('#frmModifyCustomer').bootstrapValidator({
+    feedbackIcons: {
+      valid: 'glyphicon glyphicon-ok',
+      invalid: 'glyphicon glyphicon-remove',
+      validating: 'glyphicon glyphicon-refresh'
+    },
+    fields: {
+      name: {
+        validators: {
+          notEmpty: {
+            message: '姓名不能为空'
           }
         }
       },

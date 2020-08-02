@@ -10,4 +10,8 @@ public interface CustomerService {
     void add(CustomerPO customerPO);
 
     List<CustomerPO> findAll();
+
+    CustomerPO findById(Integer id);
+
+    void modify(CustomerPO customerPO);
 }

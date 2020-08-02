@@ -2,6 +2,7 @@ package com.itany.zshop.controller.backend;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.itany.zshop.common.util.ResponseResult;
 import com.itany.zshop.pojo.CustomerPO;
 import com.itany.zshop.service.CustomerService;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,16 @@ public class CustomerController {
         return "backend/customerManager";
     }
 
+    @RequestMapping("/findById")
+    @ResponseBody
+    public ResponseResult findAll(Integer id) {
+        ResponseResult result = new ResponseResult();
+        CustomerPO customerPO = customerService.findById(id);
+        result.setStatus(1);
+        result.setData(customerPO);
+        return result;
+    }
+
     @RequestMapping("/checkLoginName")
     @ResponseBody
     public Map<String, Object> checkLoginName(String loginName) {
@@ -47,6 +58,13 @@ public class CustomerController {
         customerService.add(customerPO);
         model.addAttribute("updateMsg", "添加成功");
         return "forward:findAll";
+    }
+
+    @RequestMapping("/modify")
+    public String modify(CustomerPO customerPO, Integer pageNum, Model model) {
+        customerService.modify(customerPO);
+        model.addAttribute("updateMsg", "修改成功");
+        return "forward:findAll?pageNum=" + pageNum;
     }
 
 }

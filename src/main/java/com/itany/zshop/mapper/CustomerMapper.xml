@@ -26,11 +26,23 @@
         where login_name = #{loginName}
     </select>
 
+    <select id="selectById" resultMap="customerMap">
+        select *
+        from t_customer
+        where id = #{id}
+    </select>
+
     <insert id="insert" parameterType="com.itany.zshop.pojo.CustomerPO">
         insert into t_customer
         (name, login_name, password, phone, address, is_valid, regist_date)
         values
         (#{name}, #{loginName}, #{password}, #{phone}, #{address}, #{isValid}, #{registDate})
     </insert>
+
+    <update id="update" parameterType="com.itany.zshop.pojo.CustomerPO">
+        update t_customer
+        set name = #{name}, phone = #{phone}, address = #{address}
+        where id = #{id}
+    </update>
 
 </mapper>

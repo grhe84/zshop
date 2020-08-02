@@ -11,6 +11,7 @@ $(function(){
  // 用户管理修改模态框
     $(".doModify").on("click", function() {
         _this = this; //this是事件源
+        $('#frmModifyCustomer').data('bootstrapValidator').resetForm();
         $("#myModal").modal("show");
     });
 

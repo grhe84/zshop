@@ -37,4 +37,15 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerPO> findAll() {
         return customerDao.selectAll();
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public CustomerPO findById(Integer id) {
+        return customerDao.selectById(id);
+    }
+
+    @Override
+    public void modify(CustomerPO customerPO) {
+        customerDao.update(customerPO);
+    }
 }
