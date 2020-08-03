@@ -1,6 +1,7 @@
 package com.itany.zshop.service.impl;
 
 import com.itany.zshop.dao.CustomerDao;
+import com.itany.zshop.param.CustomerParam;
 import com.itany.zshop.pojo.CustomerPO;
 import com.itany.zshop.service.CustomerService;
 import org.springframework.stereotype.Service;
@@ -54,5 +55,11 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerPO customerPO = customerDao.selectById(id);
         Integer status = (customerPO.getIsValid() == 1) ? 0 : 1;
         customerDao.updateStatus(id, status);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<CustomerPO> findByParam(CustomerParam customerParam) {
+        return customerDao.selectByParam(customerParam);
     }
 }

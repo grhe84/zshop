@@ -1,5 +1,6 @@
 package com.itany.zshop.service;
 
+import com.itany.zshop.param.CustomerParam;
 import com.itany.zshop.pojo.CustomerPO;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface CustomerService {
     void modify(CustomerPO customerPO);
 
     void modifyStatus(Integer id);
+
+    List<CustomerPO> findByParam(CustomerParam customerParam);
 }

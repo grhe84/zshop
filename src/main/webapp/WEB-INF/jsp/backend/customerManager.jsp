@@ -23,7 +23,14 @@
   </div>
   <div class="panel-body">
     <div class="showusersearch">
-      <form class="form-inline" method="post">
+      <form
+        class="form-inline"
+        id="frmCustomerParam"
+        action="${pageContext.request.contextPath}/backend/customer/findByParam"
+        method="post"
+      >
+        <input type="hidden" id="pageNum" name="pageNum" value="${pageInfo.pageNum}">
+        <input type="hidden" id="flag" name="flag" value="查询">
         <div class="form-group">
           <label for="customer_name">姓名:</label>
           <input
@@ -33,6 +40,7 @@
             name="name"
             placeholder="请输入姓名"
             size="15px"
+            value="${customerParam.name}"
           >
         </div>
         <div class="form-group">
@@ -44,25 +52,55 @@
             name="loginName"
             placeholder="请输入帐号"
             size="15px"
+            value="${customerParam.loginName}"
           >
         </div>
         <div class="form-group">
           <label for="customer_phone">电话:</label>
-          <input type="text" class="form-control" id="customer_phone" name="phone" placeholder="请输入电话" size="15px">
+          <input
+            type="text"
+            class="form-control"
+            id="customer_phone"
+            name="phone"
+            placeholder="请输入电话"
+            size="15px"
+            value="${customerParam.phone}"
+          >
         </div>
         <div class="form-group">
           <label for="customer_address">地址:</label>
-          <input type="text" class="form-control" id="customer_address" name="address" placeholder="请输入地址">
+          <input
+            type="text"
+            class="form-control"
+            id="customer_address"
+            name="address"
+            placeholder="请输入地址"
+            value="${customerParam.address}"
+          >
         </div>
         <div class="form-group">
           <label for="customer_isValid">状态:</label>
           <select class="form-control" id="customer_isValid" name="isValid">
-            <option value="-1">全部</option>
-            <option value="1">有效</option>
-            <option value="0">无效</option>
+            <option
+              value="-1"
+            >
+              全部
+            </option>
+            <option
+              value="1"
+              <c:if test="${customerParam.isValid == 1}">selected</c:if>
+            >
+              有效
+            </option>
+            <option
+              value="0"
+              <c:if test="${customerParam.isValid == 0}">selected</c:if>
+            >
+              无效
+            </option>
           </select>
         </div>
-        <input type="button" value="查询" class="btn btn-primary" id="doSearch">
+        <input type="submit" value="查询" class="btn btn-primary" id="doSearch">
       </form>
     </div>
     <br>
@@ -252,8 +290,10 @@
     bootstrapMajorVersion: 3,
     currentPage: ${pageInfo.pageNum},
     totalPages: ${pageInfo.pages},
-    pageUrl: function (type, page, current) {
-      return '${pageContext.request.contextPath}/backend/customer/findAll?pageNum=' + page;
+    onPageClicked: function(e,originalEvent,type,page){
+      $('#pageNum').val(page);
+      $('#flag').val('');
+      $('#frmCustomerParam').submit();
     }
   });
 

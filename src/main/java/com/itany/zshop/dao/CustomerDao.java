@@ -1,5 +1,6 @@
 package com.itany.zshop.dao;
 
+import com.itany.zshop.param.CustomerParam;
 import com.itany.zshop.pojo.CustomerPO;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,4 +18,6 @@ public interface CustomerDao {
     void update(CustomerPO customerPO);
 
     void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
+
+    List<CustomerPO> selectByParam(CustomerParam customerParam);
 }

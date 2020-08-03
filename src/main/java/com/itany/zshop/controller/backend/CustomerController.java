@@ -3,6 +3,7 @@ package com.itany.zshop.controller.backend;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.itany.zshop.common.util.ResponseResult;
+import com.itany.zshop.param.CustomerParam;
 import com.itany.zshop.pojo.CustomerPO;
 import com.itany.zshop.service.CustomerService;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,22 @@ public class CustomerController {
         result.setStatus(1);
         result.setData(customerPO);
         return result;
+    }
+
+    @RequestMapping("/findByParam")
+    public String findByParam(Integer pageNum, String flag, CustomerParam customerParam, Model model) {
+        if (!ObjectUtils.isEmpty(flag)) {
+            pageNum = 1;
+        }
+        if (ObjectUtils.isEmpty(pageNum)) {
+            pageNum = 1;
+        }
+        PageHelper.startPage(pageNum, 5);
+        List<CustomerPO> customers = customerService.findByParam(customerParam);
+        PageInfo<CustomerPO> pageInfo = new PageInfo<>(customers);
+        model.addAttribute("pageInfo", pageInfo);
+        model.addAttribute("customerParam", customerParam);
+        return "backend/customerManager";
     }
 
     @RequestMapping("/checkLoginName")
