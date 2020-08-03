@@ -48,4 +48,11 @@ public class CustomerServiceImpl implements CustomerService {
     public void modify(CustomerPO customerPO) {
         customerDao.update(customerPO);
     }
+
+    @Override
+    public void modifyStatus(Integer id) {
+        CustomerPO customerPO = customerDao.selectById(id);
+        Integer status = (customerPO.getIsValid() == 1) ? 0 : 1;
+        customerDao.updateStatus(id, status);
+    }
 }

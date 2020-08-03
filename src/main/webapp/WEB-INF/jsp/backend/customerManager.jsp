@@ -100,10 +100,20 @@
                 onclick="showCustomer(${customer.id})"
               >
               <c:if test="${customer.isValid == 1}">
-                <input type="button" class="btn btn-danger btn-sm doDisable" value="禁用">
+                <input
+                  type="button"
+                  class="btn btn-danger btn-sm doDisable"
+                  value="禁用"
+                  onclick="modifyCustomerStatus(${customer.id}, this)"
+                >
               </c:if>
               <c:if test="${customer.isValid == 0}">
-                <input type="button" class="btn btn-success btn-sm doDisable" value="启用">
+                <input
+                  type="button"
+                  class="btn btn-success btn-sm doDisable"
+                  value="启用"
+                  onclick="modifyCustomerStatus(${customer.id}, this)"
+                >
               </c:if>
             </td>
           </tr>
@@ -265,6 +275,26 @@
           $('#loginName').val(result.data.loginName);
           $('#phone').val(result.data.phone);
           $('#address').val(result.data.address);
+        }
+      }
+    );
+  }
+
+  // 修改客户状态
+  function modifyCustomerStatus(id, btn) {
+    $.post(
+      '${pageContext.request.contextPath}/backend/customer/modifyStatus',
+      {'id': id},
+      function (result) {
+        if (result.status == 1) {
+          let $status = $(btn).parent().prev();
+          if ($status.text().trim() == '有效') {
+            $status.text('无效');
+            $(btn).val('启用').removeClass('btn-danger').addClass('btn-success');
+          } else if ($status.text().trim() == '无效') {
+            $status.text('有效');
+            $(btn).val('禁用').removeClass('btn-success').addClass('btn-danger');
+          }
         }
       }
     );

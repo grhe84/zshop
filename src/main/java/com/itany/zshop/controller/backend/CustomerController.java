@@ -67,4 +67,14 @@ public class CustomerController {
         return "forward:findAll?pageNum=" + pageNum;
     }
 
+    @RequestMapping("/modifyStatus")
+    @ResponseBody
+    public ResponseResult modifyStatus(Integer id) {
+        ResponseResult result = new ResponseResult();
+        customerService.modifyStatus(id);
+        result.setStatus(1);
+        result.setMessage("修改成功");
+        return result;
+    }
+
 }

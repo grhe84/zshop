@@ -14,4 +14,6 @@ public interface CustomerService {
     CustomerPO findById(Integer id);
 
     void modify(CustomerPO customerPO);
+
+    void modifyStatus(Integer id);
 }
