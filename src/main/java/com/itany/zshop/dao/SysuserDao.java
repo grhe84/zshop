@@ -18,4 +18,6 @@ public interface SysuserDao {
     void updateStatus(@Param("id") Integer id, @Param("status") Integer status);
 
     void update(SysuserPO sysuserPO);
+
+    SysuserPO selectByLoginNameAndPassword(@Param("loginName") String loginName, @Param("password") String password);
 }

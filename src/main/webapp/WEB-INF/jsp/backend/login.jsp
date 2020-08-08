@@ -9,6 +9,7 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrapvalidator.min.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/layer/layer.js"></script>
 </head>
 <body>
 <!-- 使用自定义css样式 div-signin 完成元素居中-->
@@ -109,6 +110,12 @@
 </body>
 </html>
 <script>
+  if ('${loginMsg}' != '') {
+    layer.msg('${loginMsg}', {
+      icon: 2
+    });
+  }
+
   // 重新加载验证码
   function reloadCode() {
     $('#codeImage').attr('src', '${pageContext.request.contextPath}/backend/code/image?num=' + Math.random());

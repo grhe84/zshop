@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -24,8 +25,20 @@ public class SysuserController {
     private SysuserService sysuserService;
 
     @RequestMapping("/login")
-    public String login() {
+    public String login(String loginName, String password, HttpSession session, Model model) {
+        SysuserPO sysuserPO = sysuserService.login(loginName, password);
+        if (ObjectUtils.isEmpty(sysuserPO)) {
+            model.addAttribute("loginMsg", "用户名或密码不正确");
+            return "backend/login";
+        }
+        session.setAttribute("sysuser", sysuserPO);
         return "backend/main";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "backend/login";
     }
 
     @RequestMapping("/findAll")

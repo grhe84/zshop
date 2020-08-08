@@ -68,4 +68,16 @@ public class SysuserServiceImpl implements SysuserService {
         sysuserPO.setRolePO(rolePO);
         sysuserDao.update(sysuserPO);
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public SysuserPO login(String loginName, String password) {
+        SysuserPO sysuserPO = sysuserDao.selectByLoginNameAndPassword(loginName, password);
+        if (sysuserPO == null) {
+            return null;
+        } else if (sysuserPO.getIsValid() == 0) {
+            return null;
+        }
+        return sysuserPO;
+    }
 }

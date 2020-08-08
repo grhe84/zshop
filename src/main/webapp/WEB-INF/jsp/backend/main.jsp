@@ -9,6 +9,7 @@
   <link rel="stylesheet"  href="${pageContext.request.contextPath}/css/index.css" />
   <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
   <script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+  <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
   <script src="${pageContext.request.contextPath}/js/userSetting.js"></script>
   <script type="text/javascript">
     $(function(){
@@ -26,6 +27,16 @@
         $("#frame-id").attr("src", "${pageContext.request.contextPath}/backend/sysuser/findAll");
       });
     });
+
+    // 退出登录
+    function logout() {
+      layer.alert('是否退出当前账号', {
+        icon: 3,
+        btn: ['确定', '取消']
+      }, function () {
+        top.location.href = '${pageContext.request.contextPath}/backend/sysuser/logout';
+      })
+    }
   </script>
 </head>
 
@@ -38,8 +49,8 @@
         <p>在线商城<span>后台管理系统</span></p>
         <div class="welcome">
           <div class="left">欢迎您：</div>
-          <div class="right">xxx</div>
-          <div class="exit">退出</div>
+          <div class="right">${sessionScope.sysuser.name}</div>
+          <div class="exit" onclick="logout()">退出</div>
         </div>
       </div>
     </div>

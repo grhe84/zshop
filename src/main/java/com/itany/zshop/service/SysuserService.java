@@ -18,4 +18,6 @@ public interface SysuserService {
     SysuserPO findById(Integer id);
 
     void modify(SysuserVO sysuserVO) throws Exception;
+
+    SysuserPO login(String loginName, String password);
 }
